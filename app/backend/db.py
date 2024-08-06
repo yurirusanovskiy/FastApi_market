@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, Column, String, Integer
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 
@@ -10,9 +11,13 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 # https://docs.sqlalchemy.org/en/20/core/engines.html#backend-specific-urls
 
-engine = create_engine('sqlite:///ecommerce.db', echo=True)
+# engine = create_engine('sqlite:///ecommerce.db', echo=True)
+# SessionLocal = sessionmaker(bind=engine)
 
-SessionLocal = sessionmaker(bind=engine)
+engine = create_async_engine('postgresql+asyncpg://ecommerce:1234@localhost:5432/ecommerce', echo=True)
+async_session_maker = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+
+# myusername:mypassword@myhost:5432/mydatabase
 
 class Base(DeclarativeBase):
     pass
