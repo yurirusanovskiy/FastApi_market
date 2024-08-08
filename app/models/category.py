@@ -13,5 +13,3 @@ class Category(Base):
     parent_id = Column(Integer, ForeignKey('categories.id'), nullable=True)
 
     products = relationship("Product", back_populates="category")
-
-
